@@ -1,0 +1,122 @@
+---
+import { experience } from "../data/experience";
+---
+
+<section class="section" id="experience" aria-labelledby="exp-title">
+  <div class="wrap section-grid" data-reveal>
+    <h2 class="section-title" id="exp-title">Experience</h2>
+    <ol class="timeline">
+      {
+        experience.map((job) => (
+          <li class:list={["job", { current: job.current }]}>
+            <div class="job-head">
+              <h3>
+                {job.role}
+                <span class="at">{job.company}</span>
+              </h3>
+              <p class="dates">
+                {job.dates}
+                {job.current && <span class="now">Current</span>}
+              </p>
+            </div>
+            <ul class="points">
+              {job.points.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: var(--rule-strong);
+  }
+  .job {
+    position: relative;
+    padding-left: var(--space-6);
+  }
+  .job + .job {
+    margin-top: var(--space-6);
+  }
+  .job::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-3);
+    background: var(--paper);
+  }
+  .job.current::before {
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: 0 0 0 4px var(--green-wash);
+  }
+  .job-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-5);
+  }
+  h3 {
+    font-size: var(--step-1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.55rem;
+  }
+  .at {
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    font-weight: 500;
+    color: var(--green);
+  }
+  .dates {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--ink-3);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .now {
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: var(--green-wash);
+    color: var(--green-ink);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .points {
+    margin: var(--space-3) 0 0;
+    padding-left: 1.1rem;
+    max-width: var(--measure);
+    color: var(--ink-2);
+  }
+  .points li + li {
+    margin-top: 0.35rem;
+  }
+  .points li::marker {
+    color: var(--rule-strong);
+  }
+</style>

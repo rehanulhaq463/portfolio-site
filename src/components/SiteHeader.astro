@@ -1,0 +1,277 @@
+---
+import { profile, nav } from "../data/profile";
+---
+
+<header class="site-header" data-header>
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label={`${profile.name}, back to top`}>
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="7" class="mark-bg" />
+        <path d="M8 23V9h4.6a3.5 3.5 0 0 1 0 7H8m4.6 0 3.6 7M19.5 9v14m0-7h5m0-7v14" class="mark-ink" />
+      </svg>
+      <span class="brand-name">Rehan Ul Haq</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul id="nav-list" class="nav-list" data-nav-list>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} data-nav-link>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="nav-resume">
+          <a href={profile.resumePdf} download>Resume (PDF)</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="bar-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch theme">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" /></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+      </button>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="nav-list" data-menu-toggle>
+        <span class="visually-hidden">Menu</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .site-header.scrolled {
+    border-bottom-color: var(--rule);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    min-height: 4.25rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: 1.15rem;
+    white-space: nowrap;
+  }
+  .brand:hover {
+    color: var(--ink);
+  }
+  .mark {
+    width: 32px;
+    height: 32px;
+  }
+  .mark-bg {
+    fill: var(--green);
+  }
+  .mark-ink {
+    fill: none;
+    stroke: var(--paper);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nav {
+    margin-left: auto;
+  }
+  .nav-list {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nav-list a {
+    display: block;
+    padding: 0.45rem 0.7rem;
+    border-radius: var(--radius-s);
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .nav-list a:hover,
+  .nav-list a[aria-current="true"] {
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+  .nav-resume a {
+    color: var(--green);
+    font-weight: 500;
+  }
+  .bar-actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .icon-btn:hover {
+    border-color: var(--ink-3);
+  }
+  .icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+  }
+  .i-moon {
+    display: none;
+  }
+  :global([data-theme="dark"]) .i-sun {
+    display: none;
+  }
+  :global([data-theme="dark"]) .i-moon {
+    display: block;
+  }
+  .menu-btn {
+    display: none;
+  }
+
+  @media (max-width: 1080px) {
+    .menu-btn {
+      display: grid;
+    }
+    .nav {
+      order: 3;
+      margin-left: 0;
+    }
+    .bar-actions {
+      margin-left: auto;
+    }
+    .nav-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-3) 1.25rem var(--space-5);
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+    .nav-list.open {
+      display: flex;
+    }
+    .nav-list a {
+      padding: 0.8rem 0.5rem;
+      font-size: 1.05rem;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const menuBtn = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const list = document.querySelector<HTMLElement>("[data-nav-list]");
+
+  function syncToggleLabel() {
+    const dark = root.getAttribute("data-theme") === "dark";
+    toggle?.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+    const meta = document.querySelectorAll('meta[name="theme-color"]');
+    meta.forEach((m) => m.setAttribute("content", dark ? "#0e191b" : "#f2f4f1"));
+  }
+  syncToggleLabel();
+
+  toggle?.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      /* storage unavailable: theme still switches for this visit */
+    }
+    syncToggleLabel();
+  });
+
+  // Follow system changes only if the visitor never chose a theme.
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem("theme");
+    } catch {}
+    if (!saved) {
+      root.setAttribute("data-theme", e.matches ? "dark" : "light");
+      syncToggleLabel();
+    }
+  });
+
+  // Mobile menu
+  function closeMenu() {
+    list?.classList.remove("open");
+    menuBtn?.setAttribute("aria-expanded", "false");
+  }
+  menuBtn?.addEventListener("click", () => {
+    const open = !list?.classList.contains("open");
+    list?.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+    if (open) list?.querySelector("a")?.focus();
+  });
+  list?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && list?.classList.contains("open")) {
+      closeMenu();
+      menuBtn?.focus();
+    }
+  });
+
+  // Header border on scroll + current-section highlight
+  const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"));
+  const sections = links
+    .map((l) => document.querySelector<HTMLElement>(l.getAttribute("href") || ""))
+    .filter((s): s is HTMLElement => !!s);
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) =>
+            l.toggleAttribute("aria-current", l.getAttribute("href") === `#${entry.target.id}`)
+          );
+          links.forEach((l) => {
+            if (l.hasAttribute("aria-current")) l.setAttribute("aria-current", "true");
+          });
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => io.observe(s));
+  }
+</script>

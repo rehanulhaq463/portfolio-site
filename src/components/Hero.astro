@@ -1,0 +1,191 @@
+---
+import { profile } from "../data/profile";
+const p = profile.photo;
+---
+
+<section class="hero" id="top" aria-labelledby="hero-name">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1 id="hero-name" class="enter" style="--d: 0ms">{profile.name}</h1>
+      <p class="hero-title enter" style="--d: 80ms">{profile.title}</p>
+      <p class="hero-intro enter" style="--d: 160ms">{profile.intro}</p>
+      <div class="hero-ctas enter" style="--d: 240ms">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn" href={profile.resumePdf} download>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
+          Download Resume
+        </a>
+        <a class="btn btn-quiet" href="#contact">Contact Me</a>
+      </div>
+      <ul class="hero-links enter" style="--d: 320ms">
+        <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+        <li><a href={profile.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
+        <li><span>{profile.location}</span></li>
+      </ul>
+    </div>
+
+    <div class="portrait enter" style="--d: 120ms">
+      <picture>
+        <source
+          type="image/webp"
+          srcset={`${p.webp.small} 480w, ${p.webp.large} 800w`}
+          sizes="(max-width: 820px) 70vw, 400px"
+        />
+        <img
+          src={p.jpg.small}
+          srcset={`${p.jpg.small} 480w, ${p.jpg.large} 800w`}
+          sizes="(max-width: 820px) 70vw, 400px"
+          width={p.width}
+          height={p.height}
+          alt={p.alt}
+          fetchpriority="high"
+          decoding="async"
+          data-portrait
+        />
+      </picture>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: var(--space-8) var(--space-6);
+    isolation: isolate;
+  }
+  /* Refined background: a soft wash behind the portrait and a faint ruled grid */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(42rem 28rem at 78% 42%, var(--green-wash), transparent 70%),
+      linear-gradient(to right, color-mix(in srgb, var(--rule) 45%, transparent) 1px, transparent 1px) 0 0 / 56px 56px;
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: var(--space-8);
+    align-items: center;
+  }
+  h1 {
+    font-size: var(--step-5);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    max-width: 12ch;
+  }
+  .hero-title {
+    margin-top: var(--space-4);
+    font-family: var(--font-cond);
+    font-size: var(--step-1);
+    font-weight: 500;
+    color: var(--green);
+  }
+  .hero-intro {
+    margin-top: var(--space-5);
+    max-width: 34rem;
+    font-size: 1.125rem;
+    color: var(--ink-2);
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .btn-quiet {
+    --btn-border: transparent;
+    color: var(--green);
+  }
+  .btn-quiet:hover {
+    --btn-border: var(--rule-strong);
+    color: var(--green-ink);
+  }
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.95rem;
+    color: var(--ink-3);
+  }
+  .hero-links a {
+    color: var(--ink-2);
+    text-decoration-color: var(--rule-strong);
+  }
+  .hero-links a:hover {
+    color: var(--green);
+    text-decoration-color: currentColor;
+  }
+
+  /* Portrait: refined rectangle with an offset frame behind it */
+  .portrait {
+    position: relative;
+    justify-self: end;
+    width: min(100%, 400px);
+    margin: 0 14px 14px 0;
+  }
+  .portrait::before {
+    content: "";
+    position: absolute;
+    inset: 14px -14px -14px 14px;
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius-l);
+    opacity: 0.55;
+  }
+  .portrait img {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow);
+    background: var(--surface-2);
+  }
+
+  /* One page-load sequence */
+  :global(.js) .enter {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: enter 0.6s ease forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes enter {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .hero {
+      padding-top: var(--space-6);
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    .portrait {
+      order: -1;
+      justify-self: start;
+      width: min(62vw, 260px);
+    }
+  }
+  @media (max-width: 420px) {
+    .hero-ctas .btn {
+      flex: 1 1 auto;
+    }
+    .hero-ctas .btn-quiet {
+      flex-basis: 100%;
+      --btn-border: var(--rule);
+    }
+  }
+</style>

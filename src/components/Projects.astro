@@ -1,0 +1,258 @@
+---
+import { projects, employers, confidentialityNote } from "../data/projects";
+const count = (e: string) => projects.filter((p) => p.employer === e).length;
+const slug = (e: string) => e.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<section class="section" id="projects" aria-labelledby="projects-title">
+  <div class="wrap projects" data-reveal>
+    <div class="head">
+      <div>
+        <h2 class="section-title" id="projects-title">Projects</h2>
+        <p class="note">{confidentialityNote}</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter projects by employer" data-filters hidden>
+        <button type="button" aria-pressed="true" data-filter="all">All <span class="n">{projects.length}</span></button>
+        {
+          employers.map((e) => (
+            <button type="button" aria-pressed="false" data-filter={slug(e)}>
+              {e} <span class="n">{count(e)}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="visually-hidden" aria-live="polite" data-filter-status></p>
+
+    <ul class="grid" data-project-grid>
+      {
+        projects.map((p) => (
+          <li class:list={["card", { featured: p.featured }]} data-employer={slug(p.employer)}>
+            <article aria-labelledby={`pj-${slug(p.title)}`}>
+              <div class="card-top">
+                <span class="cat">{p.category}</span>
+                <span class="period">{p.period}</span>
+              </div>
+              <h3 id={`pj-${slug(p.title)}`}>{p.title}</h3>
+              <p class="employer">{p.employer}</p>
+              <p class="desc">{p.description}</p>
+              <ul class="tags" aria-label="Technologies">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--rule);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+  }
+  .note {
+    margin-top: var(--space-3);
+    color: var(--ink-3);
+    font-size: var(--step--1);
+    max-width: 30rem;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .filters[hidden] {
+    display: none;
+  }
+  .filters button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.4rem;
+    padding: 0 0.9rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-2);
+    font: 500 0.92rem/1 var(--font-sans);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .filters button:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .filters button[aria-pressed="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .n {
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-auto-flow: row dense;
+  }
+  .card.featured {
+    grid-column: span 2;
+  }
+  /* When a filter is active, every card takes one column so rows stay full. */
+  .grid[data-filtered] .card.featured {
+    grid-column: auto;
+  }
+  .card.featured .desc {
+    max-width: 60ch;
+  }
+  .card {
+    display: flex;
+    animation: card-in 0.35s ease;
+  }
+  .card[hidden] {
+    display: none;
+  }
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  .card article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: 100%;
+    padding: var(--space-5);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card article:hover {
+    border-color: var(--rule-strong);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .cat {
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-s);
+    background: var(--green-wash);
+    color: var(--green-ink);
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .period {
+    color: var(--ink-3);
+    font-size: 0.8rem;
+    text-align: right;
+  }
+  h3 {
+    margin-top: var(--space-1);
+    font-size: var(--step-1);
+    line-height: 1.2;
+  }
+  .employer {
+    margin-top: calc(-1 * var(--space-2));
+    color: var(--green);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .desc {
+    color: var(--ink-2);
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+  .card .tags {
+    margin-top: auto;
+    padding-top: var(--space-2);
+    gap: 0.35rem;
+  }
+  .card .tags li {
+    padding: 0.2rem 0.55rem;
+    background: var(--paper);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 1000px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card.featured {
+      grid-column: auto;
+    }
+  }
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .head {
+      align-items: flex-start;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      animation: none;
+    }
+    .card article:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Employer filter. Without JavaScript the buttons stay hidden and every card shows.
+  const group = document.querySelector<HTMLElement>("[data-filters]");
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-project-grid] > .card"));
+  const status = document.querySelector<HTMLElement>("[data-filter-status]");
+  if (group) {
+    group.hidden = false;
+    const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>("button"));
+    group.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest("button");
+      if (!btn) return;
+      const f = btn.dataset.filter || "all";
+      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      const grid = document.querySelector<HTMLElement>("[data-project-grid]");
+      grid?.toggleAttribute("data-filtered", f !== "all");
+      let shown = 0;
+      cards.forEach((c) => {
+        const match = f === "all" || c.dataset.employer === f;
+        c.hidden = !match;
+        if (match) shown++;
+      });
+      if (status) {
+        const label = f === "all" ? "all employers" : btn.firstChild?.textContent?.trim();
+        status.textContent = `Showing ${shown} project${shown === 1 ? "" : "s"} from ${label}.`;
+      }
+    });
+  }
+</script>

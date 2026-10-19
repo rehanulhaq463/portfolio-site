@@ -1,0 +1,83 @@
+---
+import { profile, nav } from "../data/profile";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div>
+      <p class="f-name">{profile.name}</p>
+      <p class="f-title">{profile.title}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="f-nav">
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <ul class="f-links">
+      <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+      <li><a href={profile.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
+      <li><a href={profile.resumePdf} download>Resume (PDF)</a></li>
+    </ul>
+  </div>
+  <div class="wrap f-base">
+    <p>© {year} {profile.name}. Personal portfolio; not affiliated with any employer or client.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-9);
+    padding-block: var(--space-7) var(--space-6);
+    border-top: 1px solid var(--rule);
+    background: var(--surface-2);
+    font-size: 0.95rem;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: var(--space-6);
+  }
+  .f-name {
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: var(--step-1);
+  }
+  .f-title {
+    color: var(--ink-3);
+    margin-top: 0.2rem;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .f-nav a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+  .f-nav a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+  .f-links a {
+    overflow-wrap: anywhere;
+  }
+  .f-base {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+    color: var(--ink-3);
+    font-size: var(--step--1);
+  }
+  @media (max-width: 760px) {
+    .foot-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .foot-grid > div:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

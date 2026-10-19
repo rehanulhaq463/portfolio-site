@@ -1,0 +1,29 @@
+{
+  "name": "rehan-ul-haq-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio of Muhammad Rehan Ul Haq",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "node --env-file-if-exists=.env ./dist/server/entry.mjs",
+    "start": "node --env-file-if-exists=.env ./dist/server/entry.mjs",
+    "test": "node --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.8",
+    "@astrojs/vercel": "^11.0.15",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/ibm-plex-sans-condensed": "^5.3.0",
+    "astro": "^7.4.0"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "overrides": {
+    "@vercel/routing-utils": {
+      "path-to-regexp": "^6.3.0"
+    }
+  }
+}

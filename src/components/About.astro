@@ -1,0 +1,69 @@
+---
+import { profile, facts } from "../data/profile";
+---
+
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap section-grid" data-reveal>
+    <h2 class="section-title" id="about-title">About</h2>
+    <div class="about">
+      <div class="prose">
+        {profile.about.map((para) => <p>{para}</p>)}
+      </div>
+      <dl class="facts">
+        {
+          facts.map((f) => (
+            <div>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: var(--space-7);
+    align-items: start;
+  }
+  .prose {
+    max-width: var(--measure);
+    color: var(--ink-2);
+    font-size: 1.08rem;
+  }
+  .prose p + p {
+    margin-top: var(--space-4);
+  }
+  .facts {
+    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .facts dt {
+    color: var(--ink-3);
+    font-size: var(--step--1);
+  }
+  .facts dd {
+    margin: 0.1rem 0 0;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  @media (max-width: 960px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 420px) {
+    .facts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

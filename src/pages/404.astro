@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout title={`Page not found | ${profile.name}`}>
+  <main id="main" class="wrap nf">
+    <h1>This page doesn't exist.</h1>
+    <p>The link may be out of date. Everything on this site lives on the home page.</p>
+    <a class="btn btn-primary" href="/">Go to the home page</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .nf {
+    min-height: 80vh;
+    display: grid;
+    align-content: center;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+  h1 {
+    font-size: var(--step-3);
+  }
+  p {
+    color: var(--ink-2);
+  }
+</style>

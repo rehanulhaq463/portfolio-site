@@ -1,0 +1,351 @@
+---
+import { profile } from "../data/profile";
+import { LIMITS } from "../lib/contact.ts";
+---
+
+<section class="section" id="contact" aria-labelledby="contact-title">
+  <div class="wrap section-grid" data-reveal>
+    <h2 class="section-title" id="contact-title">Contact</h2>
+    <div class="contact-grid">
+    <div class="contact-copy">
+      <p class="lede">
+        Open to remote backend and fintech engineering roles. Send a message or email me directly.
+      </p>
+      <dl class="direct">
+        <div>
+          <dt>Email</dt>
+          <dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd>
+        </div>
+        <div>
+          <dt>LinkedIn</dt>
+          <dd><a href={profile.linkedin} rel="me noopener" target="_blank">{profile.linkedinLabel}</a></dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd>{profile.location}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <form class="form" novalidate data-contact-form data-email={profile.email}>
+      <div class="pair">
+      <div class="field">
+        <label for="cf-name">Name</label>
+        <input id="cf-name" name="name" type="text" autocomplete="name" required minlength={LIMITS.name.min} maxlength={LIMITS.name.max} aria-describedby="cf-name-err" />
+        <p class="err" id="cf-name-err" data-err="name"></p>
+      </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength={LIMITS.email.max} aria-describedby="cf-email-err" />
+        <p class="err" id="cf-email-err" data-err="email"></p>
+      </div>
+      </div>
+      <div class="field">
+        <label for="cf-subject">Subject</label>
+        <input id="cf-subject" name="subject" type="text" required minlength={LIMITS.subject.min} maxlength={LIMITS.subject.max} aria-describedby="cf-subject-err" />
+        <p class="err" id="cf-subject-err" data-err="subject"></p>
+      </div>
+      <div class="field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" rows="6" required minlength={LIMITS.message.min} maxlength={LIMITS.message.max} aria-describedby="cf-message-hint cf-message-err"></textarea>
+        <p class="hint" id="cf-message-hint">At least {LIMITS.message.min} characters.</p>
+        <p class="err" id="cf-message-err" data-err="message"></p>
+      </div>
+
+      <!-- Honeypot: hidden from people and assistive tech; bots tend to fill it. -->
+      <div class="hp" aria-hidden="true">
+        <label for="cf-website">Leave this field empty</label>
+        <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" data-submit>
+          <span class="spinner" aria-hidden="true"></span>
+          <span data-submit-label>Send Message</span>
+        </button>
+      </div>
+      <div class="status" role="status" aria-live="polite" data-status></div>
+    </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: var(--space-7);
+    align-items: start;
+  }
+  .lede {
+    color: var(--ink-2);
+    font-size: 1.08rem;
+    max-width: 22rem;
+  }
+  .direct {
+    margin: var(--space-5) 0 0;
+  }
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+  .direct div {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .direct div:first-child {
+    border-top: 1px solid var(--rule);
+  }
+  .direct dt {
+    color: var(--ink-3);
+    font-size: var(--step--1);
+  }
+  .direct dd {
+    margin: 0;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .form {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+  }
+  .field {
+    display: grid;
+    gap: 0.35rem;
+  }
+  label {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius-s);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
+  input:hover,
+  textarea:hover {
+    border-color: var(--ink-3);
+  }
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-wash);
+  }
+  [aria-invalid="true"] {
+    border-color: var(--danger);
+  }
+  [aria-invalid="true"]:focus-visible {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px var(--danger-wash);
+  }
+  .hint {
+    color: var(--ink-3);
+    font-size: var(--step--1);
+  }
+  .err {
+    color: var(--danger);
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+  .err:empty {
+    display: none;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .actions {
+    margin-top: var(--space-2);
+  }
+  .spinner {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  [data-busy] .spinner {
+    display: inline-block;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .status:empty {
+    display: none;
+  }
+  .status {
+    padding: var(--space-4);
+    border-radius: var(--radius-s);
+    border-left: 3px solid var(--ink-3);
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  .status[data-kind="success"] {
+    border-left-color: var(--green);
+    background: var(--green-wash);
+  }
+  .status[data-kind="error"] {
+    border-left-color: var(--danger);
+    background: var(--danger-wash);
+  }
+  .status[data-kind="warning"] {
+    border-left-color: var(--amber);
+    background: var(--amber-wash);
+  }
+  .status a {
+    color: inherit;
+    font-weight: 600;
+  }
+  @media (max-width: 1020px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+  @media (max-width: 560px) {
+    .form {
+      padding: var(--space-5);
+    }
+    .pair {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { normalizeContact, validateContact, hasErrors, MIN_FILL_MS, type ContactField } from "../lib/contact.ts";
+
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  if (form) {
+    const startedAt = Date.now();
+    const email = form.dataset.email || "";
+    const submit = form.querySelector<HTMLButtonElement>("[data-submit]")!;
+    const label = form.querySelector<HTMLElement>("[data-submit-label]")!;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const fields: ContactField[] = ["name", "email", "subject", "message"];
+    let touched = false;
+
+    const control = (f: ContactField) => form.elements.namedItem(f) as HTMLInputElement | HTMLTextAreaElement;
+    const errEl = (f: ContactField) => form.querySelector<HTMLElement>(`[data-err="${f}"]`)!;
+
+    function showErrors(errors: Partial<Record<ContactField, string>>) {
+      for (const f of fields) {
+        const msg = errors[f] || "";
+        errEl(f).textContent = msg;
+        control(f).setAttribute("aria-invalid", msg ? "true" : "false");
+      }
+    }
+
+    function setStatus(kind: "success" | "error" | "warning" | "", html: string) {
+      status.dataset.kind = kind;
+      status.innerHTML = html;
+    }
+
+    function emailLink() {
+      const a = document.createElement("a");
+      a.href = `mailto:${email}`;
+      a.textContent = email;
+      return a.outerHTML;
+    }
+
+    function readForm() {
+      const raw: Record<string, string> = {};
+      for (const f of fields) raw[f] = control(f).value;
+      return normalizeContact(raw);
+    }
+
+    // Re-validate as the visitor corrects fields, but only after a first submit attempt.
+    form.addEventListener("input", () => {
+      if (touched) showErrors(validateContact(readForm()));
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      touched = true;
+      setStatus("", "");
+      const input = readForm();
+      const errors = validateContact(input);
+      showErrors(errors);
+      if (hasErrors(errors)) {
+        const first = fields.find((f) => errors[f]);
+        if (first) control(first).focus();
+        return;
+      }
+
+      // Give fast typists' submissions the minimum fill time instead of rejecting them.
+      const wait = MIN_FILL_MS - (Date.now() - startedAt);
+      submit.disabled = true;
+      submit.setAttribute("data-busy", "");
+      label.textContent = "Sending…";
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait + 50));
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            ...input,
+            website: (form.elements.namedItem("website") as HTMLInputElement).value,
+            startedAt,
+          }),
+        });
+        let data: { ok?: boolean; code?: string; message?: string; errors?: Partial<Record<ContactField, string>> } = {};
+        try {
+          data = await res.json();
+        } catch {
+          /* non-JSON response, e.g. a static host without the API */
+        }
+
+        if (res.ok && data.ok) {
+          form.reset();
+          touched = false;
+          showErrors({});
+          setStatus("success", "Message sent. I'll reply to the email address you gave.");
+        } else if (res.status === 422 && data.errors) {
+          showErrors(data.errors);
+          setStatus("error", "Some fields need attention. Fix the highlighted fields and send again.");
+        } else if (data.code === "not_configured") {
+          setStatus("warning", `This form isn't connected to an email service yet, so your message was not sent. Please email me at ${emailLink()}.`);
+        } else if (data.message) {
+          const safe = document.createElement("span");
+          safe.textContent = data.message;
+          setStatus("error", `${safe.innerHTML} You can also email me at ${emailLink()}.`);
+        } else {
+          setStatus("error", `The contact service isn't reachable right now, so your message was not sent. Please email me at ${emailLink()}.`);
+        }
+      } catch {
+        setStatus("error", `Your message couldn't be sent. Check your connection and try again, or email me at ${emailLink()}.`);
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute("data-busy");
+        label.textContent = "Send Message";
+      }
+    });
+  }
+</script>

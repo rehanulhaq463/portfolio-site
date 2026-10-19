@@ -1,0 +1,41 @@
+---
+import { thesis } from "../data/thesis";
+---
+
+<section class="section" id="thesis" aria-labelledby="thesis-title">
+  <div class="wrap section-grid" data-reveal>
+    <h2 class="section-title" id="thesis-title">Thesis &amp; research</h2>
+    <article class="thesis" aria-labelledby="thesis-name">
+      <h3 id="thesis-name">{thesis.title}</h3>
+      <p class="meta">{thesis.meta}. Supervised by {thesis.supervisor}.</p>
+      <p class="desc">{thesis.description}</p>
+      <ul class="tags" aria-label="Research topics">
+        {thesis.topics.map((t) => <li>{t}</li>)}
+      </ul>
+    </article>
+  </div>
+</section>
+
+<style>
+  .thesis {
+    display: grid;
+    gap: var(--space-3);
+    padding-left: var(--space-5);
+    border-left: 3px solid var(--green);
+  }
+  h3 {
+    font-size: var(--step-2);
+    max-width: 28ch;
+  }
+  .meta {
+    color: var(--ink-3);
+    font-size: 0.95rem;
+  }
+  .desc {
+    color: var(--ink-2);
+    max-width: var(--measure);
+  }
+  .tags {
+    margin-top: var(--space-2);
+  }
+</style>
